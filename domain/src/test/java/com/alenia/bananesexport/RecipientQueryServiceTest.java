@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,9 +36,11 @@ public class RecipientQueryServiceTest {
     @Before
     public void setUp() {
         recipient1 = Recipient.builder()
+                .id(1)
                 .name("name")
                 .build();
         recipient2 = Recipient.builder()
+                .id(2)
                 .name("name")
                 .build();
         recipients = new ArrayList<>();
@@ -52,4 +55,12 @@ public class RecipientQueryServiceTest {
         List<Recipient> allRecipients = recipientQueryService.findAll();
         assertEquals(2, allRecipients.size());
     }
+
+    @Test
+    public void should_return_recipient_with_id() {
+        Mockito.when(recipientRepository.findById(1)).thenReturn(Optional.ofNullable(recipient1));
+        Optional<Recipient> recipientFound = recipientQueryService.findById(1);
+        assertEquals(1, recipientFound.get().getId());
+    }
+
 }

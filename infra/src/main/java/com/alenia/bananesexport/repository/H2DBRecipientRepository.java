@@ -32,4 +32,9 @@ public class H2DBRecipientRepository implements RecipientRepository {
     public List<Recipient> findAll() {
         return springDataRecipientRepository.findAll();
     }
+
+    @Override
+    public Optional<Recipient> findById(long id) {
+        return springDataRecipientRepository.findById(id);
+    }
 }

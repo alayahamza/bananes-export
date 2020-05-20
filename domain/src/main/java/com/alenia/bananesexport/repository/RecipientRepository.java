@@ -11,4 +11,6 @@ public interface RecipientRepository {
     Optional<Recipient> findByNameAndAddressAndZipCodeAndCityAndCountry(String name, String address, Integer zipCode, String city, String country);
 
     List<Recipient> findAll();
+
+    Optional<Recipient> findById(long id);
 }

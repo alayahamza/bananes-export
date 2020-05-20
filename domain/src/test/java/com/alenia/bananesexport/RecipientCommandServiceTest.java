@@ -5,6 +5,7 @@ import com.alenia.bananesexport.exception.BananaException;
 import com.alenia.bananesexport.repository.RecipientRepository;
 import com.alenia.bananesexport.service.command.RecipientCommandService;
 import com.alenia.bananesexport.service.command.RecipientCommandServiceImpl;
+import com.alenia.bananesexport.service.query.RecipientQueryServiceImpl;
 import com.alenia.bananesexport.to.RecipientTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@Import(RecipientCommandServiceImpl.class)
+@Import({RecipientCommandServiceImpl.class, RecipientQueryServiceImpl.class})
 public class RecipientCommandServiceTest {
 
     @Autowired
@@ -41,7 +42,7 @@ public class RecipientCommandServiceTest {
     }
 
     @Test
-    public void should_create_recipient_when_create() throws Exception {
+    public void should_create_recipient_when_create() throws BananaException {
         Mockito.when(recipientRepository.save(Mockito.any())).thenReturn(recipient);
         Recipient recipientCreated = recipientCommandService.create(recipientTO);
         assertNotNull(recipientCreated);
@@ -53,5 +54,14 @@ public class RecipientCommandServiceTest {
         Mockito.when(recipientRepository.findByNameAndAddressAndZipCodeAndCityAndCountry(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenReturn(java.util.Optional.ofNullable(recipient));
         recipientCommandService.create(recipientTO);
+    }
+
+    @Test
+    public void should_update_recipient_name() throws BananaException {
+        Mockito.when(recipientRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(recipient));
+        Mockito.when(recipientRepository.save(Mockito.any())).thenReturn(recipient);
+        recipientTO.setName("new name");
+        Recipient updatedRecipient = recipientCommandService.update(recipientTO, 1);
+        assertEquals(updatedRecipient.getName(), recipientTO.getName());
     }
 }

@@ -6,4 +6,6 @@ import com.alenia.bananesexport.to.RecipientTO;
 
 public interface RecipientCommandService {
     Recipient create(RecipientTO recipient) throws BananaException;
+
+    Recipient update(RecipientTO recipientTO, long id) throws BananaException;
 }
