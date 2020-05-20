@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class OrderResponseTO extends OrderTO {
 
     private long id;
+    private long price;
 }

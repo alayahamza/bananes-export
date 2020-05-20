@@ -15,7 +15,7 @@ public class OrderTO {
     @NotNull(message = "recipient should not be null")
     private long recipient;
     @NotNull(message = "DeliveryDate should not be null")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deliveryDate;
     @NotNull(message = "Quantity should not be null")
     private Double quantity;
