@@ -4,6 +4,7 @@ import com.alenia.bananesexport.entity.Recipient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -25,5 +26,10 @@ public class H2DBRecipientRepository implements RecipientRepository {
     @Override
     public Optional<Recipient> findByNameAndAddressAndZipCodeAndCityAndCountry(String name, String address, Integer zipCode, String city, String country) {
         return springDataRecipientRepository.findByNameAndAddressAndZipCodeAndCityAndCountry(name, address, zipCode, city, country);
+    }
+
+    @Override
+    public List<Recipient> findAll() {
+        return springDataRecipientRepository.findAll();
     }
 }
