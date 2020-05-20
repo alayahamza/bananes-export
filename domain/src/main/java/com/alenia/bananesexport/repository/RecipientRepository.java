@@ -13,4 +13,6 @@ public interface RecipientRepository {
     List<Recipient> findAll();
 
     Optional<Recipient> findById(long id);
+
+    void delete(long id);
 }

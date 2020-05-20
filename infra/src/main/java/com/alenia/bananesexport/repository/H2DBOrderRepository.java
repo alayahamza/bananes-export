@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class H2DBOrderRepository implements OrderRepository {
@@ -24,5 +25,20 @@ public class H2DBOrderRepository implements OrderRepository {
     @Override
     public List<Order> findAll() {
         return springDataOrderRepository.findAll();
+    }
+
+    @Override
+    public Optional<Order> findById(long id) {
+        return springDataOrderRepository.findById(id);
+    }
+
+    @Override
+    public List<Order> findByRecipientId(long id) {
+        return springDataOrderRepository.findByRecipientId(id);
+    }
+
+    @Override
+    public void delete(long id) {
+        springDataOrderRepository.deleteById(id);
     }
 }

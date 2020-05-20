@@ -8,4 +8,6 @@ public interface RecipientCommandService {
     Recipient create(RecipientTO recipient) throws BananaException;
 
     Recipient update(RecipientTO recipientTO, long id) throws BananaException;
+
+    void delete(long id);
 }

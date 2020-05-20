@@ -37,4 +37,9 @@ public class H2DBRecipientRepository implements RecipientRepository {
     public Optional<Recipient> findById(long id) {
         return springDataRecipientRepository.findById(id);
     }
+
+    @Override
+    public void delete(long id) {
+        springDataRecipientRepository.deleteById(id);
+    }
 }

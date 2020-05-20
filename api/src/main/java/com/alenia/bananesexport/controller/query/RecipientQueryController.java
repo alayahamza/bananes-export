@@ -29,4 +29,5 @@ public class RecipientQueryController {
         return ResponseEntity.ok()
                 .body(recipientMapper.toRecipientTOList(recipientQueryService.findAll()));
     }
+
 }

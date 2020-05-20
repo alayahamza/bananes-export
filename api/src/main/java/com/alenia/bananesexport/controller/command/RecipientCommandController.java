@@ -32,4 +32,9 @@ public class RecipientCommandController {
     public ResponseEntity<RecipientResponseTO> patch(@Validated @RequestBody RecipientTO recipient, @PathVariable("id") long id) throws BananaException {
         return ResponseEntity.ok().body(recipientMapper.toRecipientTO(recipientCommandService.update(recipient, id)));
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") long id) throws BananaException {
+        recipientCommandService.delete(id);
+    }
 }

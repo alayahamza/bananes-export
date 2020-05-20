@@ -14,4 +14,8 @@ public interface OrderCommandService {
     void checkDeliveryDate(LocalDate deliveryDate) throws BananaException;
 
     Double calculateOrderPrice(Double quantity);
+
+    Order update(OrderTO orderTO, long id) throws BananaException;
+
+    void delete(long id);
 }

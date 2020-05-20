@@ -7,6 +7,7 @@ import com.alenia.bananesexport.repository.OrderRepository;
 import com.alenia.bananesexport.repository.RecipientRepository;
 import com.alenia.bananesexport.service.command.OrderCommandService;
 import com.alenia.bananesexport.service.command.OrderCommandServiceImpl;
+import com.alenia.bananesexport.service.query.OrderQueryServiceImpl;
 import com.alenia.bananesexport.service.query.RecipientQueryServiceImpl;
 import com.alenia.bananesexport.to.OrderTO;
 import org.junit.Before;
@@ -25,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@Import({OrderCommandServiceImpl.class, RecipientQueryServiceImpl.class})
+@Import({OrderCommandServiceImpl.class, RecipientQueryServiceImpl.class, OrderQueryServiceImpl.class})
 public class OrderCommandServiceTest {
 
     @Autowired
@@ -86,5 +87,15 @@ public class OrderCommandServiceTest {
         assertNotNull(orderCreated);
         assertEquals(orderTO.getRecipient(), orderCreated.getRecipient().getId());
         assertEquals(orderTO.getQuantity(), orderCreated.getQuantity());
+    }
+
+    @Test
+    public void should_update_order() throws BananaException {
+        Mockito.when(orderRepository.findById(1)).thenReturn(Optional.ofNullable(order));
+        Mockito.when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
+        Mockito.when(recipientRepository.findById(orderTO.getRecipient())).thenReturn(Optional.ofNullable(recipient));
+        orderTO.setQuantity(100d);
+        Order updatedOrder = orderCommandService.update(orderTO, 1);
+        assertEquals(orderTO.getQuantity(), updatedOrder.getQuantity());
     }
 }

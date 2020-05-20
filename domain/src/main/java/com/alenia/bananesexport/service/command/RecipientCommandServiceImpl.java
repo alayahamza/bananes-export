@@ -8,9 +8,11 @@ import com.alenia.bananesexport.service.query.RecipientQueryService;
 import com.alenia.bananesexport.to.RecipientTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Transactional
 @Service
 public class RecipientCommandServiceImpl implements RecipientCommandService {
 
@@ -46,6 +48,11 @@ public class RecipientCommandServiceImpl implements RecipientCommandService {
         recipientToUpdate.setCity(recipientTO.getCity());
         recipientToUpdate.setCountry(recipientTO.getCountry());
         return recipientRepository.save(recipientToUpdate);
+    }
+
+    @Override
+    public void delete(long id) {
+        recipientRepository.delete(id);
     }
 
     private void checkRecipientExistence(RecipientTO recipientTO) throws BananaException {

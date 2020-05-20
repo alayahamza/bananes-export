@@ -22,7 +22,7 @@ public class Order {
     @Column(name = "ID")
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Recipient recipient;
 
     @Column(name = "DELIVERY_DATE")

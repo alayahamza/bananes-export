@@ -6,6 +6,7 @@ import com.alenia.bananesexport.to.OrderResponseTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +29,11 @@ public class OrderQueryController {
     public ResponseEntity<List<OrderResponseTO>> findAll() {
         return ResponseEntity.ok()
                 .body(orderMapper.toOrderTOList(orderQueryService.findAll()));
+    }
+
+    @GetMapping("/recipient/{id}")
+    public ResponseEntity<List<OrderResponseTO>> findAllByRecipient(@PathVariable("id") long id) {
+        return ResponseEntity.ok()
+                .body(orderMapper.toOrderTOList(orderQueryService.findAllByRecipient(id)));
     }
 }

@@ -5,23 +5,28 @@ import com.alenia.bananesexport.entity.Order;
 import com.alenia.bananesexport.entity.Recipient;
 import com.alenia.bananesexport.exception.BananaException;
 import com.alenia.bananesexport.repository.OrderRepository;
+import com.alenia.bananesexport.service.query.OrderQueryService;
 import com.alenia.bananesexport.service.query.RecipientQueryService;
 import com.alenia.bananesexport.to.OrderTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+@Transactional
 @Service
 public class OrderCommandServiceImpl implements OrderCommandService {
 
     private final RecipientQueryService recipientQueryService;
     private final OrderRepository orderRepository;
+    private final OrderQueryService orderQueryService;
 
     @Autowired
-    public OrderCommandServiceImpl(RecipientQueryService recipientQueryService, OrderRepository orderRepository) {
+    public OrderCommandServiceImpl(RecipientQueryService recipientQueryService, OrderRepository orderRepository, OrderQueryService orderQueryService) {
         this.recipientQueryService = recipientQueryService;
         this.orderRepository = orderRepository;
+        this.orderQueryService = orderQueryService;
     }
 
 
@@ -46,7 +51,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
                 quantity % BananaConstant.BOX_SIZE != 0;
 
         if (quantityRules) {
-            throw new BananaException(BananaConstant.WRONG_ORDER_QUANTITY);
+            throw new BananaException(BananaConstant.ORDER_QUANTITY_ERROR);
         }
     }
 
@@ -61,5 +66,23 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     @Override
     public Double calculateOrderPrice(Double quantity) {
         return quantity * BananaConstant.BOX_SIZE * BananaConstant.UNITY_PRICE;
+    }
+
+    @Override
+    public Order update(OrderTO orderTO, long id) throws BananaException {
+        Order orderToUpdate = orderQueryService.findById(id);
+        checkQuantity(orderTO.getQuantity());
+        checkDeliveryDate(orderTO.getDeliveryDate());
+        Recipient recipient = recipientQueryService.findById(orderTO.getRecipient());
+        orderToUpdate.setQuantity(orderTO.getQuantity());
+        orderToUpdate.setPrice(calculateOrderPrice(orderTO.getQuantity()));
+        orderToUpdate.setRecipient(recipient);
+        orderToUpdate.setDeliveryDate(orderTO.getDeliveryDate());
+        return orderRepository.save(orderToUpdate);
+    }
+
+    @Override
+    public void delete(long id) {
+        orderRepository.delete(id);
     }
 }
