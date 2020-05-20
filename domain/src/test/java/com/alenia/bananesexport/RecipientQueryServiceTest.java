@@ -1,6 +1,7 @@
 package com.alenia.bananesexport;
 
 import com.alenia.bananesexport.entity.Recipient;
+import com.alenia.bananesexport.exception.BananaException;
 import com.alenia.bananesexport.repository.RecipientRepository;
 import com.alenia.bananesexport.service.query.RecipientQueryService;
 import com.alenia.bananesexport.service.query.RecipientQueryServiceImpl;
@@ -57,10 +58,10 @@ public class RecipientQueryServiceTest {
     }
 
     @Test
-    public void should_return_recipient_with_id() {
+    public void should_return_recipient_with_id() throws BananaException {
         Mockito.when(recipientRepository.findById(1)).thenReturn(Optional.ofNullable(recipient1));
-        Optional<Recipient> recipientFound = recipientQueryService.findById(1);
-        assertEquals(1, recipientFound.get().getId());
+        Recipient recipientFound = recipientQueryService.findById(1);
+        assertEquals(1, recipientFound.getId());
     }
 
 }

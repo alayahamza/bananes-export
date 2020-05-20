@@ -39,17 +39,13 @@ public class RecipientCommandServiceImpl implements RecipientCommandService {
     @Override
     public Recipient update(RecipientTO recipientTO, long id) throws BananaException {
         checkRecipientExistence(recipientTO);
-        Recipient recipientToUpdate = findById(id);
+        Recipient recipientToUpdate = recipientQueryService.findById(id);
         recipientToUpdate.setName(recipientTO.getName());
         recipientToUpdate.setAddress(recipientTO.getAddress());
         recipientToUpdate.setZipCode(recipientTO.getZipCode());
         recipientToUpdate.setCity(recipientTO.getCity());
         recipientToUpdate.setCountry(recipientTO.getCountry());
         return recipientRepository.save(recipientToUpdate);
-    }
-
-    private Recipient findById(long id) throws BananaException {
-        return recipientQueryService.findById(id).orElseThrow(() -> new BananaException(BananaConstant.RECIPIENT_NOT_FOUND));
     }
 
     private void checkRecipientExistence(RecipientTO recipientTO) throws BananaException {

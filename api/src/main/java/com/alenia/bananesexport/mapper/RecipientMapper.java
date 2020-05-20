@@ -15,4 +15,5 @@ public interface RecipientMapper {
 
     @IterableMapping(elementTargetType = RecipientTO.class)
     List<RecipientResponseTO> toRecipientTOList(List<Recipient> recipients);
+
 }

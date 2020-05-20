@@ -1,5 +1,6 @@
 package com.alenia.bananesexport.to;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OrderTO {
     @NotNull(message = "recipient should not be null")
-    private RecipientTO recipient;
+    private long recipient;
     @NotNull(message = "DeliveryDate should not be null")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDate deliveryDate;
     @NotNull(message = "Quantity should not be null")
     private Double quantity;
-    @NotNull(message = "Price should not be null")
-    private Double price;
 }

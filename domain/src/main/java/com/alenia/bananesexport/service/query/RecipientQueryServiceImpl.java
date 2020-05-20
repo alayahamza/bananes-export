@@ -1,12 +1,13 @@
 package com.alenia.bananesexport.service.query;
 
+import com.alenia.bananesexport.constant.BananaConstant;
 import com.alenia.bananesexport.entity.Recipient;
+import com.alenia.bananesexport.exception.BananaException;
 import com.alenia.bananesexport.repository.RecipientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecipientQueryServiceImpl implements RecipientQueryService {
@@ -24,7 +25,7 @@ public class RecipientQueryServiceImpl implements RecipientQueryService {
     }
 
     @Override
-    public Optional<Recipient> findById(long id) {
-        return recipientRepository.findById(1);
+    public Recipient findById(long id) throws BananaException {
+        return recipientRepository.findById(id).orElseThrow(() -> new BananaException(BananaConstant.RECIPIENT_NOT_FOUND));
     }
 }

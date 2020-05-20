@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "T_ORDER")
 public class Order {
 
     @Id
@@ -20,7 +22,7 @@ public class Order {
     @Column(name = "ID")
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Recipient recipient;
 
     @Column(name = "DELIVERY_DATE")
